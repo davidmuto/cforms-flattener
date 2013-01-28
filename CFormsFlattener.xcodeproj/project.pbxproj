@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E81DCC5F16B7203A00635258 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E81DCC5E16B7203A00635258 /* main.cpp */; };
 		E81DCC6116B7203A00635258 /* CFormsFlattener.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E81DCC6016B7203A00635258 /* CFormsFlattener.1 */; };
+		E81DCC7316B72CC300635258 /* FormRecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E81DCC7116B72CC300635258 /* FormRecord.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		E81DCC5A16B7203A00635258 /* CFormsFlattener */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CFormsFlattener; sourceTree = BUILT_PRODUCTS_DIR; };
 		E81DCC5E16B7203A00635258 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E81DCC6016B7203A00635258 /* CFormsFlattener.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CFormsFlattener.1; sourceTree = "<group>"; };
+		E81DCC7116B72CC300635258 /* FormRecord.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FormRecord.cpp; sourceTree = "<group>"; };
+		E81DCC7216B72CC300635258 /* FormRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormRecord.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +63,20 @@
 		E81DCC5D16B7203A00635258 /* CFormsFlattener */ = {
 			isa = PBXGroup;
 			children = (
+				E81DCC6F16B72CA600635258 /* Classes */,
 				E81DCC5E16B7203A00635258 /* main.cpp */,
 				E81DCC6016B7203A00635258 /* CFormsFlattener.1 */,
 			);
 			path = CFormsFlattener;
+			sourceTree = "<group>";
+		};
+		E81DCC6F16B72CA600635258 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E81DCC7116B72CC300635258 /* FormRecord.cpp */,
+				E81DCC7216B72CC300635258 /* FormRecord.h */,
+			);
+			name = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +131,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E81DCC5F16B7203A00635258 /* main.cpp in Sources */,
+				E81DCC7316B72CC300635258 /* FormRecord.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +222,7 @@
 				E81DCC6616B7203A00635258 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
