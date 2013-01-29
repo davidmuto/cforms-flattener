@@ -31,6 +31,7 @@
 		E81DCC6016B7203A00635258 /* CFormsFlattener.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CFormsFlattener.1; sourceTree = "<group>"; };
 		E81DCC7116B72CC300635258 /* FormRecord.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FormRecord.cpp; sourceTree = "<group>"; };
 		E81DCC7216B72CC300635258 /* FormRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormRecord.h; sourceTree = "<group>"; };
+		E88DC85716B806B00022530C /* CFormsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFormsDataSource.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,10 +74,19 @@
 		E81DCC6F16B72CA600635258 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E88DC85416B806940022530C /* Data Providers */,
 				E81DCC7116B72CC300635258 /* FormRecord.cpp */,
 				E81DCC7216B72CC300635258 /* FormRecord.h */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		E88DC85416B806940022530C /* Data Providers */ = {
+			isa = PBXGroup;
+			children = (
+				E88DC85716B806B00022530C /* CFormsDataSource.h */,
+			);
+			name = "Data Providers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

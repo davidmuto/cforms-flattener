@@ -19,11 +19,21 @@ public:
     FormRecord();
     ~FormRecord();
     
-    // fields
+    // properties
+    void setId(unsigned int id);
+    void setDate(time_t date);
+    void setEmail(string email);
     void addFieldValue(string fieldName, string fieldValue);
+    
+    unsigned int getId();
+    time_t getDate();
+    string getEmail();
     string getFieldValue(string fieldName);
     
 private:
+    unsigned int id;
+    time_t date;
+    string email;
     map<string,string> fields;
 };
 
