@@ -9,21 +9,21 @@
 #include <iostream>
 #include "SubmissionProcessor.h"
 #include "SubmissionWriter.h"
-#include "PseudoDataProvider.h"
+#include "MySQLDataProvider.h"
 
 using namespace std;
 
 // sample usage: app <settings_file> <form_name>
 int main(int argc, const char * argv[])
 {
-    PseudoDataProvider provider("someid");
+    MySQLDataProvider provider("someid");
     SubmissionProcessor processor(&provider);
     
     Submission *records = processor.getSubmissions();
     cout << "Loaded " << processor.getNumberOfSubmissions() << " records." << endl;
     
-    SubmissionWriter writer(records, processor.getNumberOfSubmissions());
-    writer.writeToFile("");
+    //SubmissionWriter writer(records, processor.getNumberOfSubmissions());
+    //writer.writeToFile("");
     
     return EXIT_SUCCESS;
 }

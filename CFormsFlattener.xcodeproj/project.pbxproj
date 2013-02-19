@@ -13,6 +13,9 @@
 		E809FB7E16D3B9300059C97F /* SubmissionWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E809FB7C16D3B9300059C97F /* SubmissionWriter.cpp */; };
 		E81DCC5F16B7203A00635258 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E81DCC5E16B7203A00635258 /* main.cpp */; };
 		E81DCC6116B7203A00635258 /* CFormsFlattener.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E81DCC6016B7203A00635258 /* CFormsFlattener.1 */; };
+		E867550E16D3D3B300589384 /* MySQLDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E867550C16D3D3B300589384 /* MySQLDataProvider.cpp */; };
+		E867553116D42DEA00589384 /* libmysqlcppconn.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E867553016D42DEA00589384 /* libmysqlcppconn.6.dylib */; };
+		E867553216D42DFD00589384 /* libmysqlcppconn.6.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E867553016D42DEA00589384 /* libmysqlcppconn.6.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,16 @@
 				E81DCC6116B7203A00635258 /* CFormsFlattener.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		E867552216D42C0100589384 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				E867553216D42DFD00589384 /* libmysqlcppconn.6.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -41,6 +54,9 @@
 		E81DCC5A16B7203A00635258 /* CFormsFlattener */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CFormsFlattener; sourceTree = BUILT_PRODUCTS_DIR; };
 		E81DCC5E16B7203A00635258 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E81DCC6016B7203A00635258 /* CFormsFlattener.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CFormsFlattener.1; sourceTree = "<group>"; };
+		E867550C16D3D3B300589384 /* MySQLDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MySQLDataProvider.cpp; sourceTree = "<group>"; };
+		E867550D16D3D3B300589384 /* MySQLDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLDataProvider.h; sourceTree = "<group>"; };
+		E867553016D42DEA00589384 /* libmysqlcppconn.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmysqlcppconn.6.dylib; path = Lib/mysql/lib/libmysqlcppconn.6.dylib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E867553116D42DEA00589384 /* libmysqlcppconn.6.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +103,7 @@
 		E81DCC5D16B7203A00635258 /* CFormsFlattener */ = {
 			isa = PBXGroup;
 			children = (
+				E867553016D42DEA00589384 /* libmysqlcppconn.6.dylib */,
 				E81DCC6F16B72CA600635258 /* Classes */,
 				E81DCC5E16B7203A00635258 /* main.cpp */,
 				E81DCC6016B7203A00635258 /* CFormsFlattener.1 */,
@@ -108,6 +126,8 @@
 				E809FB7816D2749E0059C97F /* CFormsDataProvider.h */,
 				E809FB7A16D3A8E00059C97F /* PseudoDataProvider.h */,
 				E809FB7916D3A8E00059C97F /* PseudoDataProvider.cpp */,
+				E867550D16D3D3B300589384 /* MySQLDataProvider.h */,
+				E867550C16D3D3B300589384 /* MySQLDataProvider.cpp */,
 			);
 			name = "Data Providers";
 			sourceTree = "<group>";
@@ -122,6 +142,7 @@
 				E81DCC5616B7203A00635258 /* Sources */,
 				E81DCC5716B7203A00635258 /* Frameworks */,
 				E81DCC5816B7203A00635258 /* CopyFiles */,
+				E867552216D42C0100589384 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -168,6 +189,7 @@
 				E809FB7716D2728C0059C97F /* SubmissionProcessor.cpp in Sources */,
 				E809FB7B16D3A8E00059C97F /* PseudoDataProvider.cpp in Sources */,
 				E809FB7E16D3B9300059C97F /* SubmissionWriter.cpp in Sources */,
+				E867550E16D3D3B300589384 /* MySQLDataProvider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,7 +200,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -193,13 +215,21 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Lib",
+					"$(SRCROOT)/Lib/mysql",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Lib/mysql/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lmysqlcppconn";
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -207,7 +237,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -216,18 +246,31 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Lib",
+					"$(SRCROOT)/Lib/mysql",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Lib/mysql/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = "-lmysqlcppconn";
 				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
 		E81DCC6516B7203A00635258 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Lib/mysql\"",
+					"\"$(SRCROOT)/Lib/mysql/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -235,6 +278,11 @@
 		E81DCC6616B7203A00635258 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Lib/mysql\"",
+					"\"$(SRCROOT)/Lib/mysql/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
