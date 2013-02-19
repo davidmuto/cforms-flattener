@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E809FB7416D269680059C97F /* Submission.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E809FB7216D269680059C97F /* Submission.cpp */; };
+		E809FB7716D2728C0059C97F /* SubmissionProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E809FB7516D2728C0059C97F /* SubmissionProcessor.cpp */; };
+		E809FB7B16D3A8E00059C97F /* PseudoDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E809FB7916D3A8E00059C97F /* PseudoDataProvider.cpp */; };
 		E81DCC5F16B7203A00635258 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E81DCC5E16B7203A00635258 /* main.cpp */; };
 		E81DCC6116B7203A00635258 /* CFormsFlattener.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E81DCC6016B7203A00635258 /* CFormsFlattener.1 */; };
-		E81DCC7316B72CC300635258 /* FormRecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E81DCC7116B72CC300635258 /* FormRecord.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,12 +28,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E809FB7216D269680059C97F /* Submission.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Submission.cpp; sourceTree = "<group>"; };
+		E809FB7316D269680059C97F /* Submission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Submission.h; sourceTree = "<group>"; };
+		E809FB7516D2728C0059C97F /* SubmissionProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SubmissionProcessor.cpp; sourceTree = "<group>"; };
+		E809FB7616D2728C0059C97F /* SubmissionProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmissionProcessor.h; sourceTree = "<group>"; };
+		E809FB7816D2749E0059C97F /* CFormsDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CFormsDataProvider.h; sourceTree = "<group>"; };
+		E809FB7916D3A8E00059C97F /* PseudoDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PseudoDataProvider.cpp; sourceTree = "<group>"; };
+		E809FB7A16D3A8E00059C97F /* PseudoDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PseudoDataProvider.h; sourceTree = "<group>"; };
 		E81DCC5A16B7203A00635258 /* CFormsFlattener */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CFormsFlattener; sourceTree = BUILT_PRODUCTS_DIR; };
 		E81DCC5E16B7203A00635258 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E81DCC6016B7203A00635258 /* CFormsFlattener.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CFormsFlattener.1; sourceTree = "<group>"; };
-		E81DCC7116B72CC300635258 /* FormRecord.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FormRecord.cpp; sourceTree = "<group>"; };
-		E81DCC7216B72CC300635258 /* FormRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormRecord.h; sourceTree = "<group>"; };
-		E88DC85716B806B00022530C /* CFormsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFormsDataSource.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +51,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E809FB7116D269570059C97F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E809FB7316D269680059C97F /* Submission.h */,
+				E809FB7216D269680059C97F /* Submission.cpp */,
+				E809FB7616D2728C0059C97F /* SubmissionProcessor.h */,
+				E809FB7516D2728C0059C97F /* SubmissionProcessor.cpp */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		E81DCC4F16B7203A00635258 = {
 			isa = PBXGroup;
 			children = (
@@ -74,9 +91,8 @@
 		E81DCC6F16B72CA600635258 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E809FB7116D269570059C97F /* Model */,
 				E88DC85416B806940022530C /* Data Providers */,
-				E81DCC7116B72CC300635258 /* FormRecord.cpp */,
-				E81DCC7216B72CC300635258 /* FormRecord.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -84,7 +100,9 @@
 		E88DC85416B806940022530C /* Data Providers */ = {
 			isa = PBXGroup;
 			children = (
-				E88DC85716B806B00022530C /* CFormsDataSource.h */,
+				E809FB7816D2749E0059C97F /* CFormsDataProvider.h */,
+				E809FB7A16D3A8E00059C97F /* PseudoDataProvider.h */,
+				E809FB7916D3A8E00059C97F /* PseudoDataProvider.cpp */,
 			);
 			name = "Data Providers";
 			sourceTree = "<group>";
@@ -141,7 +159,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E81DCC5F16B7203A00635258 /* main.cpp in Sources */,
-				E81DCC7316B72CC300635258 /* FormRecord.cpp in Sources */,
+				E809FB7416D269680059C97F /* Submission.cpp in Sources */,
+				E809FB7716D2728C0059C97F /* SubmissionProcessor.cpp in Sources */,
+				E809FB7B16D3A8E00059C97F /* PseudoDataProvider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
