@@ -17,12 +17,6 @@ Submission::Submission()
     this->date = 0;
 }
 
-static string encapsulateField(string &value, bool prefixComma)
-{
-    string data = "\"" + value + "\"";
-    return prefixComma ? "," + data : data;
-}
-
 static void lcase(string &str)
 {
     std:transform(str.begin(), str.end(), str.begin(), std::tolower);
@@ -40,17 +34,6 @@ string Submission::getCSVAttributeString()
     }
     
     return csvLine;
-}
-
-string Submission::getCSVDataString(vector<string> &fieldNames)
-{
-    string data = "";
-    
-    for (int i = 0; i < fieldNames.size(); i++) {
-        data += encapsulateField(this->fields[fieldNames[i]], i != 0);
-    }
-    
-    return data;
 }
 
 string Submission::getField(string fieldName)

@@ -19,10 +19,6 @@ class Submission {
 public:
     Submission();
     
-    string getCSVAttributeString();
-    string getCSVDataString(vector<string> &fieldNames);
-    
-    
     /* Simple accessors */
     unsigned int getId() { return this->id; }
     string getFormId() { return this->formId; }
@@ -39,6 +35,7 @@ public:
     
     string getField(string fieldName);
     void setField(string fieldName, string fieldValue);
+    string getCSVAttributeString();
     
 private:
     unsigned int id;

@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "SubmissionProcessor.h"
+#include "SubmissionWriter.h"
 #include "PseudoDataProvider.h"
 
 using namespace std;
@@ -19,12 +20,10 @@ int main(int argc, const char * argv[])
     SubmissionProcessor processor(&provider);
     
     Submission *records = processor.getSubmissions();
-    
-    for (int i = 0; i < processor.getNumberOfSubmissions(); i++) {
-        cout << "Found Record: " << records[i].getId() << " With Id: " << records[i].getField("Id") << " and Name: " << records[i].getField("Name") << endl;
-    }
-    
     cout << "Loaded " << processor.getNumberOfSubmissions() << " records." << endl;
+    
+    SubmissionWriter writer(records, processor.getNumberOfSubmissions());
+    writer.writeToFile("");
+    
     return EXIT_SUCCESS;
 }
-
