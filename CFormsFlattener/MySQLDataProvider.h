@@ -13,10 +13,16 @@
 
 class MySQLDataProvider : public CFormsDataProvider {
 public:
-    MySQLDataProvider(string formId, Config *config) : CFormsDataProvider(formId, config) { }
+    MySQLDataProvider(string formId, Config *config) : CFormsDataProvider(formId, config) {
+        this->submissionTable = config->getTablePrefix() + "cformssubmissions";
+        this->dataTable = config->getTablePrefix() + "cformsdata";
+    }
     
     virtual Submission *loadSubmissions(unsigned int &numSubmissions);
     virtual submissionDataT *loadSubmissionData(unsigned int &numSubmissions);
+    
+private:
+    string submissionTable, dataTable;
 };
 
 #endif /* defined(__CFormsFlattener__MySQLDataProvider__) */

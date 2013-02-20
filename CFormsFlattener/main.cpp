@@ -35,6 +35,7 @@ int main(int argc, const char * argv[])
     Submission *records = processor.getSubmissions();
     SubmissionWriter writer(records, processor.getNumberOfSubmissions());
     writer.writeToFile(outputFile);
+    cout << "CSV Data written to " << outputFile << endl;
     
     return EXIT_SUCCESS;
 }

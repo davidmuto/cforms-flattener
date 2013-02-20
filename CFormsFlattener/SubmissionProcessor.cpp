@@ -43,8 +43,8 @@ Submission *SubmissionProcessor::getSubmissions()
 // performs a bisection search: assumes submissions are ordered by id ascending
 static Submission *findById(unsigned int id, Submission *submissions, unsigned int numRecords)
 {
-    unsigned int min = submissions[0].getId();
-    unsigned int max = submissions[numRecords - 1].getId();
+    unsigned int min = 0;
+    unsigned int max = numRecords;
     unsigned int mid = 0;
     
     Submission *found = NULL;
@@ -92,10 +92,11 @@ void SubmissionProcessor::loadSubmissions()
 void SubmissionProcessor::loadSubmissionData()
 {
     unsigned int numRecords;
-    Submission *current;
+    Submission *current = NULL;
     submissionDataT *records = this->provider->loadSubmissionData(numRecords);
     
     for (unsigned int i = 0; i < numRecords; i++) {
+        
         // only lookup if it's different or null
         if (current == NULL || current->getId() != records[i].submissionId) {
             current = findById(records[i].submissionId, this->submissions, this->numSubmissions);

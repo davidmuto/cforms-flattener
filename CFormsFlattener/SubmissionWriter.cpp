@@ -9,6 +9,7 @@
 #include "SubmissionWriter.h"
 #include <sstream>
 
+#include <fstream>
 #include <iostream>
 
 static string getLargestNumberOfFieldsString(Submission *submissions, unsigned int numRecords)
@@ -43,21 +44,29 @@ static void writeFieldNames(ostringstream &ss, vector<string> &fieldNames)
 {
     ss << "id,formId,email,ip,date";
     for (int j = 0; j < fieldNames.size(); j++) {
-        ss << "," << fieldNames[j];
+        ss << ",\"" << fieldNames[j] << "\"";
     }
     ss << endl;
+}
+
+static string timeString(time_t time)
+{
+    char buffer[32];
+    strftime(buffer, 32, "%Y%m%d%H%M%S", gmtime(&time));
+    
+    return string(buffer);
 }
 
 static void writeSubmissionRecord(ostringstream &ss, vector<string> &fieldNames, Submission &record)
 {
     ss << record.getId() << ",";
-    ss << record.getFormId() << ",";
-    ss << record.getEmail() << ",";
-    ss << record.getIP() << ",";
-    ss << record.getDate();
+    ss << "\"" + record.getFormId() << "\",";
+    ss << "\"" + record.getEmail() << "\",";
+    ss << "\"" + record.getIP() << "\",";
+    ss << timeString(record.getDate());
     
     for (int j = 0; j < fieldNames.size(); j++) {
-        ss << "," << record.getField(fieldNames[j]);
+        ss << ",\"" << record.getField(fieldNames[j]) << "\"";
     }
     
     ss << endl;
@@ -66,15 +75,15 @@ static void writeSubmissionRecord(ostringstream &ss, vector<string> &fieldNames,
 void SubmissionWriter::writeToFile(string fileName)
 {
     ostringstream ss;
-    ss << "Sample Output" << endl;
-    
     vector<string> fieldNames = split(getLargestNumberOfFieldsString(this->records, this->numRecords), ',');
     
     writeFieldNames(ss, fieldNames);
-    
     for (int i = 0; i < this->numRecords; i++) {
         writeSubmissionRecord(ss, fieldNames, this->records[i]);
     }
     
-    cout << ss.str();
+    ofstream outputFile;
+    outputFile.open(fileName.c_str());
+    outputFile << ss.str();
+    outputFile.close();
 }

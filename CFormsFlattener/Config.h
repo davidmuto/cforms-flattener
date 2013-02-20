@@ -20,7 +20,7 @@ public:
     Config(string filePath) {
         ifstream file;
         string line;
-        file.open(filePath);
+        file.open(filePath.c_str());
         
         short index = 0;
         while(!file.eof()) {
@@ -37,6 +37,7 @@ public:
             case 1: this->user = value; break;
             case 2: this->password = value; break;
             case 3: this->catalog = value; break;
+            case 4: this->tablePrefix = value; break;
         }
     }
     
@@ -45,9 +46,10 @@ public:
     string getUser() { return this->user; }
     string getPassword() { return this->password; }
     string getCatalog() { return this->catalog; }
+    string getTablePrefix() { return this->tablePrefix; }
     
 private:
-    string host, user, password, catalog;
+    string host, user, password, catalog, tablePrefix;
 };
 
 #endif /* defined(__CFormsFlattener__Config__) */
