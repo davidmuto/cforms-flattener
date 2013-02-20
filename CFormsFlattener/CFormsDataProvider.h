@@ -10,6 +10,7 @@
 #define CFormsFlattener_CFormsDataProvider_h
 
 #include "Submission.h"
+#include "Config.h"
 
 struct submissionDataT {
     unsigned int submissionId;
@@ -19,9 +20,13 @@ struct submissionDataT {
 
 class CFormsDataProvider {
 public:
-    CFormsDataProvider(string formId) { this->formId = formId; }
+    CFormsDataProvider(string formId, Config *config) {
+        this->formId = formId;
+        this->config = config;
+    }
     
     string getFormId() { return this->formId; }
+    Config *getConfig() { return this->config; }
     
     /* abstract methods */
     virtual Submission *loadSubmissions(unsigned int &numSubmissions) = 0;
@@ -31,6 +36,7 @@ public:
     
 private:
     string formId;
+    Config *config;
 };
 
 #endif

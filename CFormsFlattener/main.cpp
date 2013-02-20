@@ -7,23 +7,40 @@
 //
 
 #include <iostream>
+#include "Config.h"
 #include "SubmissionProcessor.h"
 #include "SubmissionWriter.h"
 #include "MySQLDataProvider.h"
 
 using namespace std;
 
-// sample usage: app <settings_file> <form_name>
+void printUsage(string executableName);
+
+// sample usage: app <settings_file> <form_name> <output_file>
 int main(int argc, const char * argv[])
 {
-    MySQLDataProvider provider("someid");
+    if (argc != 4) {
+        printUsage(argv[0]);
+        return EXIT_FAILURE;
+    }
+    
+    string configFile = argv[1];
+    string formId = argv[2];
+    string outputFile = argv[3];
+    
+    Config config(configFile);
+    MySQLDataProvider provider(formId, &config);
     SubmissionProcessor processor(&provider);
     
     Submission *records = processor.getSubmissions();
-    cout << "Loaded " << processor.getNumberOfSubmissions() << " records." << endl;
-    
-    //SubmissionWriter writer(records, processor.getNumberOfSubmissions());
-    //writer.writeToFile("");
+    SubmissionWriter writer(records, processor.getNumberOfSubmissions());
+    writer.writeToFile(outputFile);
     
     return EXIT_SUCCESS;
+}
+
+void printUsage(string executableName)
+{
+    cout << "Wrong number of arguments!" << endl;
+    cout << "Usage: " << executableName << " <config_file> <cform_id> <output_file>" << endl;
 }

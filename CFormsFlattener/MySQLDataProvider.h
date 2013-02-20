@@ -13,7 +13,7 @@
 
 class MySQLDataProvider : public CFormsDataProvider {
 public:
-    MySQLDataProvider(string formId) : CFormsDataProvider(formId) { }
+    MySQLDataProvider(string formId, Config *config) : CFormsDataProvider(formId, config) { }
     
     virtual Submission *loadSubmissions(unsigned int &numSubmissions);
     virtual submissionDataT *loadSubmissionData(unsigned int &numSubmissions);

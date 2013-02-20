@@ -13,7 +13,7 @@
 
 class PseudoDataProvider : public CFormsDataProvider {
 public:
-    PseudoDataProvider(string formId) : CFormsDataProvider(formId) { }
+    PseudoDataProvider(string formId) : CFormsDataProvider(formId, NULL) { }
     
     virtual Submission *loadSubmissions(unsigned int &numSubmissions);
     virtual submissionDataT *loadSubmissionData(unsigned int &numSubmissions);

@@ -13,20 +13,20 @@
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 
-static sql::Connection *getConnection(const sql::SQLString &catalog)
+static sql::Connection *getConnection(Config *config)
 {
     sql::Driver *driver = get_driver_instance();
-    sql::Connection *conn = driver->connect("tcp://smdgwpinstance1.cr4zlvihnnh2.us-east-1.rds.amazonaws.com:13306", "wpcglobalnews", "3a2HunE@");
-    conn->setSchema(catalog);
+    sql::Connection *conn = driver->connect(config->getHost(), config->getUser(), config->getPassword());
+    conn->setSchema(config->getCatalog());
     
     return conn;
 }
 
 Submission *MySQLDataProvider::loadSubmissions(unsigned int &numSubmissions)
 {
-    sql::Connection *conn = getConnection("wp_contests_globalnews");
+    sql::Connection *conn = getConnection(this->getConfig());
     sql::Statement *stmt = conn->createStatement();
-    sql::ResultSet *res = stmt->executeQuery("SELECT * FROM cformssubmissions");
+    sql::ResultSet *res = stmt->executeQuery("SELECT * FROM wp_cformssubmissions");
     
     unsigned int count = 0;
     
