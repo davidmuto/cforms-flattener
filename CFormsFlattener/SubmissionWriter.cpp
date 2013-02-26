@@ -7,47 +7,9 @@
 //
 
 #include "SubmissionWriter.h"
-#include <sstream>
 
 #include <fstream>
 #include <iostream>
-
-static string getLargestNumberOfFieldsString(Submission *submissions, unsigned int numRecords)
-{
-    string fields = "";
-    string currentFields = "";
-    
-    for (int i = 0; i < numRecords; i++) {
-        currentFields = submissions[i].getCSVAttributeString();
-        if (currentFields.size() > fields.size()) {
-            fields = currentFields;
-        }
-    }
-    
-    return fields;
-}
-
-static vector<string> split(const string &s, char delimeter)
-{
-    vector<string> tokens;
-    stringstream ss(s);
-    string token;
-    
-    while (getline(ss, token, delimeter)) {
-        tokens.push_back(token);
-    }
-    
-    return tokens;
-}
-
-static void writeFieldNames(ostringstream &ss, vector<string> &fieldNames)
-{
-    ss << "id,formId,email,ip,date";
-    for (int j = 0; j < fieldNames.size(); j++) {
-        ss << ",\"" << fieldNames[j] << "\"";
-    }
-    ss << endl;
-}
 
 static string timeString(time_t time)
 {
@@ -57,33 +19,43 @@ static string timeString(time_t time)
     return string(buffer);
 }
 
-static void writeSubmissionRecord(ostringstream &ss, vector<string> &fieldNames, Submission &record)
+static void writeSubmissionRecord(ofstream &fs, vector<string> &fieldNames, Submission &record)
 {
-    ss << record.getId() << ",";
-    ss << "\"" + record.getFormId() << "\",";
-    ss << "\"" + record.getEmail() << "\",";
-    ss << "\"" + record.getIP() << "\",";
-    ss << timeString(record.getDate());
+    fs << record.getId() << ",";
+    fs << "\"" + record.getFormId() << "\",";
+    fs << "\"" + record.getEmail() << "\",";
+    fs << "\"" + record.getIP() << "\",";
+    fs << timeString(record.getDate());
     
     for (int j = 0; j < fieldNames.size(); j++) {
-        ss << ",\"" << record.getField(fieldNames[j]) << "\"";
+        fs << ",\"" << record.getField(fieldNames[j]) << "\"";
     }
     
-    ss << endl;
+    fs << endl;
 }
 
-void SubmissionWriter::writeToFile(string fileName)
+void SubmissionWriter::writeFieldNames(vector<string> &fieldNames)
 {
-    ostringstream ss;
-    vector<string> fieldNames = split(getLargestNumberOfFieldsString(this->records, this->numRecords), ',');
+    ofstream fs;
+    fs.open(this->outputFile.c_str());
+    fs << "id,formId,email,ip,date";
     
-    writeFieldNames(ss, fieldNames);
-    for (int i = 0; i < this->numRecords; i++) {
-        writeSubmissionRecord(ss, fieldNames, this->records[i]);
+    for (int i = 0; i < fieldNames.size(); i++) {
+        fs << ",\"" << fieldNames[i] << "\"";
     }
     
-    ofstream outputFile;
-    outputFile.open(fileName.c_str());
-    outputFile << ss.str();
-    outputFile.close();
+    fs << endl;
+    fs.close();
+}
+
+void SubmissionWriter::writeToFile(Submission *submissions, vector<string> &fieldNames, unsigned int numRecords)
+{
+    ofstream fs;
+    fs.open(this->outputFile.c_str(), ios::out|ios::app);
+    
+    for (unsigned int i = 0; i < numRecords; i++) {
+        writeSubmissionRecord(fs, fieldNames, submissions[i]);
+    }
+    
+    fs.close();
 }

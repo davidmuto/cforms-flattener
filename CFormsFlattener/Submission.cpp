@@ -36,6 +36,18 @@ string Submission::getCSVAttributeString()
     return csvLine;
 }
 
+vector<string> Submission::getFieldNames()
+{
+    vector<string> names;
+    
+    map<string, string>::const_iterator current;
+    for (current = this->fields.begin(); current != this->fields.end(); current++) {
+        names.push_back(current->first);
+    }
+    
+    return names;
+}
+
 string Submission::getField(string fieldName)
 {
     lcase(fieldName);

@@ -18,7 +18,21 @@ static string numToString (int num)
     return ss.str();
 }
 
-Submission *PseudoDataProvider::loadSubmissions(unsigned int &numSubmissions)
+vector<string> PseudoDataProvider::getAllFieldNames()
+{
+    vector<string> names;
+    names.push_back("Id");
+    names.push_back("Name");
+    
+    return names;
+}
+
+unsigned int PseudoDataProvider::getNumberOfSubmissions()
+{
+    return NUM_RECORDS;
+}
+
+Submission *PseudoDataProvider::loadSubmissions(unsigned int offset, unsigned int limit, unsigned int &numSubmissions)
 {
     Submission *records = new Submission[NUM_RECORDS];
     numSubmissions = NUM_RECORDS;
@@ -30,7 +44,7 @@ Submission *PseudoDataProvider::loadSubmissions(unsigned int &numSubmissions)
     return records;
 }
 
-submissionDataT *PseudoDataProvider::loadSubmissionData(unsigned int &numSubmissions)
+void PseudoDataProvider::loadSubmissionData(Submission *submissions, unsigned int numSubmissions)
 {
     numSubmissions = NUM_RECORDS * 2;
     submissionDataT *records = new submissionDataT[numSubmissions];
@@ -48,6 +62,6 @@ submissionDataT *PseudoDataProvider::loadSubmissionData(unsigned int &numSubmiss
         
         subId++;
     }
-    
-    return records;
+    delete records;
+    //return records;
 }

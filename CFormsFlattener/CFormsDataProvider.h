@@ -29,10 +29,10 @@ public:
     Config *getConfig() { return this->config; }
     
     /* abstract methods */
-    virtual Submission *loadSubmissions(unsigned int &numSubmissions) = 0;
-    
-    // a lot of efficiency can be gained by ordering the records by submissionId
-    virtual submissionDataT *loadSubmissionData(unsigned int &numSubmissions) = 0;
+    virtual vector<string> getAllFieldNames() = 0;
+    virtual unsigned int getNumberOfSubmissions() = 0;
+    virtual Submission *loadSubmissions(unsigned int offset, unsigned int limit, unsigned int &numSubmissions) = 0;
+    virtual void loadSubmissionData(Submission *submissions, unsigned int numSubmissions) = 0;
     
 private:
     string formId;

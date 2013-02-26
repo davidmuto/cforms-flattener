@@ -14,21 +14,15 @@
 
 class SubmissionProcessor {
 public:
-    SubmissionProcessor(CFormsDataProvider *provider);
+    SubmissionProcessor(CFormsDataProvider *provider, unsigned int pageSize);
     ~SubmissionProcessor();
     
-    string getFormId() { return this->provider->getFormId(); }
-    unsigned int getNumberOfSubmissions() { return this->numSubmissions; }
-    
-    Submission *getSubmissions();
+    void writeToFile(string outputFileName);
     
 private:
     CFormsDataProvider *provider;
-    Submission *submissions;
     unsigned int numSubmissions;
-    
-    void loadSubmissions();
-    void loadSubmissionData();
+    unsigned int pageSize;
 };
 
 #endif /* defined(__CFormsFlattener__SubmissionProcessor__) */

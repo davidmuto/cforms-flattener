@@ -33,6 +33,7 @@ public:
     void setIP(string ip) { this->ip = ip; }
     void setDate(time_t date) { this->date = date; }
     
+    vector<string> getFieldNames();
     string getField(string fieldName);
     void setField(string fieldName, string fieldValue);
     string getCSVAttributeString();

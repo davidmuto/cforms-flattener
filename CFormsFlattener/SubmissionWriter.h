@@ -13,16 +13,15 @@
 
 class SubmissionWriter {
 public:
-    SubmissionWriter(Submission *submissions, unsigned int numRecords) {
-        this->records = submissions;
-        this->numRecords = numRecords;
+    SubmissionWriter(string outputFile) {
+        this->outputFile = outputFile;
     }
     
-    void writeToFile(string fileName);
+    void writeFieldNames(vector<string> &fieldNames);
+    void writeToFile(Submission *submissions, vector<string> &fieldNames, unsigned int numRecords);
     
 private:
-    Submission *records;
-    unsigned int numRecords;
+    string outputFile;
 };
 
 #endif /* defined(__CFormsFlattener__SubmissionWriter__) */

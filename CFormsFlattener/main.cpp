@@ -7,12 +7,15 @@
 //
 
 #include <iostream>
+#include <ctime>
+
 #include "Config.h"
 #include "SubmissionProcessor.h"
-#include "SubmissionWriter.h"
 #include "MySQLDataProvider.h"
 
 using namespace std;
+
+static const unsigned int PAGE_SIZE = 1000;
 
 void printUsage(string executableName);
 
@@ -30,12 +33,19 @@ int main(int argc, const char * argv[])
     
     Config config(configFile);
     MySQLDataProvider provider(formId, &config);
-    SubmissionProcessor processor(&provider);
+    SubmissionProcessor processor(&provider, PAGE_SIZE);
     
-    Submission *records = processor.getSubmissions();
-    SubmissionWriter writer(records, processor.getNumberOfSubmissions());
-    writer.writeToFile(outputFile);
+    time_t start;
+    time_t end;
+    
+    time(&start);
+    cout << "Processing entries..." << endl;
+    processor.writeToFile(outputFile);
     cout << "CSV Data written to " << outputFile << endl;
+    time(&end);
+    
+    double seconds = difftime(end, start);
+    cout << "Process completed in " << seconds << " seconds." << endl;
     
     return EXIT_SUCCESS;
 }

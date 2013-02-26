@@ -11,9 +11,14 @@
 #include <mysql_connection.h>
 #include <cppconn/driver.h>
 #include <cppconn/resultset.h>
+#include <cppconn/prepared_statement.h>
 #include <cppconn/statement.h>
 
+#include <sstream>
 #include <iostream>
+
+static sql::Connection *conn;
+static sql::Statement *stmt;
 
 static sql::Connection *getConnection(Config *config)
 {
@@ -30,7 +35,11 @@ static sql::Connection *getConnection(Config *config)
 
 static string makeSubmissionQuery(const string &fields, const string &tableName, const string &formId)
 {
-    return "SELECT " + fields + " FROM " + tableName +" WHERE form_id ='" + formId +"'";
+    ostringstream ss;
+    ss << "SELECT " << fields << " FROM " << tableName;
+    ss << " WHERE form_id = '" << formId << "'";
+    
+    return ss.str();
 }
 
 static unsigned int countRecords(sql::Statement *stmt, const string &tableName, const string &formId)
@@ -47,16 +56,85 @@ static unsigned int countRecords(sql::Statement *stmt, const string &tableName, 
     return count;
 }
 
-Submission *MySQLDataProvider::loadSubmissions(unsigned int &numSubmissions)
+static Submission *findById(Submission *submissions, unsigned int numRecords, unsigned int id)
 {
-    sql::Connection *conn = getConnection(this->getConfig());
-    sql::Statement *stmt = conn->createStatement();
+    Submission *found = NULL;
     
-    numSubmissions = countRecords(stmt, this->submissionTable, this->getFormId());
+    for (unsigned int i = 0; i < numRecords; i++) {
+        if (submissions[i].getId() == id) {
+            found = &submissions[i];
+            break;
+        }
+    }
+    
+    return found;
+}
+
+MySQLDataProvider::MySQLDataProvider(string formId, Config *config) : CFormsDataProvider(formId, config)
+{
+    this->submissionTable = config->getTablePrefix() + "cformssubmissions";
+    this->dataTable = config->getTablePrefix() + "cformsdata";
+    
+    // create shared connection and statement
+    conn = getConnection(config);
+    stmt = conn->createStatement();
+}
+
+MySQLDataProvider::~MySQLDataProvider()
+{
+    // cleanup connection and statement objects
+    if (stmt != NULL) delete stmt;
+    if (conn != NULL) delete conn;
+}
+
+vector<string> MySQLDataProvider::getAllFieldNames()
+{
+    vector<string> fieldNames;
+    
+    ostringstream query;
+    query << "SELECT DISTINCT field_name FROM " << this->submissionTable;
+    query << " JOIN " << this->dataTable << " ON sub_id = id";
+    query << " WHERE form_id = '" << this->getFormId() << "'";
+    
+    sql::ResultSet *rs = stmt->executeQuery(query.str());
+    while (rs->next()) {
+        fieldNames.push_back(rs->getString(1));
+    }
+    
+    delete rs;
+    return fieldNames;
+}
+
+unsigned int MySQLDataProvider::getNumberOfSubmissions()
+{
+    unsigned int numRecords = countRecords(stmt, this->submissionTable, this->getFormId());
+    return numRecords;
+}
+
+Submission *MySQLDataProvider::loadSubmissions(unsigned int offset, unsigned int limit, unsigned int &numSubmissions)
+{
+    ostringstream dataQuery;
+    dataQuery << "SELECT id, email, unix_timestamp(sub_date), ip FROM ";
+    dataQuery << this->submissionTable;
+    dataQuery << " WHERE form_id = '" << this->getFormId() << "'";
+    dataQuery << " LIMIT " << offset <<", " << limit;
+    
+    ostringstream countQuery;
+    countQuery << "SELECT COUNT(*) FROM (";
+    countQuery << "SELECT id FROM " << this->submissionTable;
+    countQuery << " WHERE form_id = '" << this->getFormId() << "'";
+    countQuery << " LIMIT " << offset << ", " << limit;
+    countQuery << ") res";
+    
+    // HANDLE ERROR?
+    sql::ResultSet *countRes = stmt->executeQuery(countQuery.str());
+    countRes->next();
+    numSubmissions = countRes->getUInt(1);
+    delete countRes;
+    
     Submission *records = new Submission[numSubmissions];
     
-    string query = "SELECT id, email, unix_timestamp(sub_date), ip FROM " + this->submissionTable +" WHERE form_id = '" + this->getFormId() +"'";
-    sql::ResultSet *res = stmt->executeQuery(query);
+    sql::ResultSet *res = stmt->executeQuery(dataQuery.str());
     
     unsigned int index = 0;
     while (res->next()) {
@@ -69,41 +147,32 @@ Submission *MySQLDataProvider::loadSubmissions(unsigned int &numSubmissions)
     }
     
     delete res;
-    delete stmt;
-    delete conn;
-    
     return records;
 }
 
-submissionDataT *MySQLDataProvider::loadSubmissionData(unsigned int &numSubmissions)
+void MySQLDataProvider::loadSubmissionData(Submission *submissions, unsigned int numSubmissions)
 {
-    numSubmissions = 0;
-    string whereClause = " WHERE sub_id IN (SELECT id FROM " + this->submissionTable +" WHERE form_id = '" + this->getFormId() + "')";
+    ostringstream query;
+    query << "SELECT sub_id, field_name, field_val FROM " << this->dataTable;
+    query << " WHERE sub_id IN (";
     
-    sql::Connection *conn = getConnection(this->getConfig());
-    sql::Statement *stmt = conn->createStatement();
-    
-    sql::ResultSet *countRes = stmt->executeQuery("SELECT COUNT(f_id) FROM " + this->dataTable + whereClause);
-    if(countRes->next()) {
-        numSubmissions = countRes->getUInt(1);
+    for (unsigned int i = 0; i < numSubmissions; i++) {
+        if (i != 0) query << ",";
+        query << submissions[i].getId();
     }
-    delete countRes;
     
-    submissionDataT *records = new submissionDataT[numSubmissions];
+    query << ")";
     
-    if (numSubmissions > 0) {
-        sql::ResultSet *res = stmt->executeQuery("SELECT sub_id, field_name, field_val FROM " + this->dataTable + whereClause);
-
-        unsigned int index = 0;
-        while (res->next()) {
-            records[index].submissionId = res->getUInt(1);
-            records[index].fieldName = res->getString(2);
-            records[index].fieldValue = res->getString(3);
-            index++;
+    sql::ResultSet *rs = stmt->executeQuery(query.str());
+    Submission *current = NULL;
+    
+    while (rs->next()) {
+        if (current == NULL || current->getId() != rs->getUInt(1)) {
+            current = findById(submissions, numSubmissions, rs->getUInt(1));
         }
         
-        delete res;
+        current->setField(rs->getString(2), rs->getString(3));
     }
     
-    return records;
+    delete rs;
 }

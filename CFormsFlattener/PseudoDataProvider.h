@@ -15,9 +15,10 @@ class PseudoDataProvider : public CFormsDataProvider {
 public:
     PseudoDataProvider(string formId) : CFormsDataProvider(formId, NULL) { }
     
-    virtual Submission *loadSubmissions(unsigned int &numSubmissions);
-    virtual submissionDataT *loadSubmissionData(unsigned int &numSubmissions);
-
+    virtual vector<string> getAllFieldNames();
+    virtual unsigned int getNumberOfSubmissions();
+    virtual Submission *loadSubmissions(unsigned int offset, unsigned int limit, unsigned int &numSubmissions);
+    virtual void loadSubmissionData(Submission *submissions, unsigned int numSubmissions);
 };
 
 #endif /* defined(__CFormsFlattener__PseudoDataProvider__) */

@@ -7,38 +7,51 @@
 //
 
 #include "SubmissionProcessor.h"
-#include <stdlib.h>
+#include "SubmissionWriter.h"
+#include <cmath>
 #include <iostream>
 
-SubmissionProcessor::SubmissionProcessor(CFormsDataProvider *provider)
+SubmissionProcessor::SubmissionProcessor(CFormsDataProvider *provider, unsigned int pageSize)
 {
     this->provider = provider;
-    this->submissions = NULL;
     this->numSubmissions = 0;
+    this->pageSize = pageSize;
 }
 
 SubmissionProcessor::~SubmissionProcessor()
 {
-    // delete heap allocated objects
-    if(this->submissions != NULL) {
-        delete [] this->submissions;
-    }
-}
-
-Submission *SubmissionProcessor::getSubmissions()
-{
-    if (this->submissions == NULL) {
-        this->loadSubmissions();
-        this->loadSubmissionData();
-    }
     
-    return this->submissions;
 }
 
-/*
- Private Implementation
- */
-
+void SubmissionProcessor::writeToFile(string outputFileName)
+{
+    SubmissionWriter writer(outputFileName);
+    
+    unsigned int totalNumRecords = this->provider->getNumberOfSubmissions();
+    unsigned int numPages = ceil(totalNumRecords * 1.0 / pageSize * 1.0);
+    
+    cout << "Collecting all custom fields..." << endl;
+    vector<string> fields = this->provider->getAllFieldNames();
+    writer.writeFieldNames(fields);
+    
+    unsigned int numRecordsInPage;
+    
+    for (int i = 0; i < numPages; i++) {
+        cout << "Processing page " << (i + 1) <<" of " << numPages << "...";
+        
+        // load records and fill custom fields
+        Submission *records = this->provider->loadSubmissions(i * this->pageSize, this->pageSize, numRecordsInPage);
+        this->provider->loadSubmissionData(records, numRecordsInPage);
+        
+        // write to output file
+        cout << "written." << endl;
+        writer.writeToFile(records, fields, numRecordsInPage);
+        
+        // clean up
+        delete [] records;
+        records = NULL;
+    }
+}
 
 // performs a bisection search: assumes submissions are ordered by id ascending
 static Submission *findById(unsigned int id, Submission *submissions, unsigned int numRecords)
@@ -71,46 +84,11 @@ static Submission *findById(unsigned int id, Submission *submissions, unsigned i
     return found;
 }
 
-static int compareSubmissions(const void *p1, const void *p2) {
+static int compareSubmissions(const void *p1, const void *p2)
+{
     Submission *sub1 = (Submission *)p1;
     Submission *sub2 = (Submission *)p2;
     
     // ascending order
     return sub1->getId() - sub2->getId();
-}
-
-void SubmissionProcessor::loadSubmissions()
-{
-    if(this->submissions == NULL) {
-        this->submissions = this->provider->loadSubmissions(this->numSubmissions);
-        
-        // since we will be looking up often it's worth sorting (in place of course)
-        qsort(this->submissions, this->numSubmissions, sizeof(Submission), compareSubmissions);
-    }
-}
-
-void SubmissionProcessor::loadSubmissionData()
-{
-    unsigned int numRecords;
-    Submission *current = NULL;
-    submissionDataT *records = this->provider->loadSubmissionData(numRecords);
-    
-    for (unsigned int i = 0; i < numRecords; i++) {
-        
-        // only lookup if it's different or null
-        if (current == NULL || current->getId() != records[i].submissionId) {
-            current = findById(records[i].submissionId, this->submissions, this->numSubmissions);
-        }
-        
-        if (current == NULL) {
-            // do something here?
-            cout << "Found null node id: " << records[i].submissionId << endl;
-            continue;
-        }
-        
-        current->setField(records[i].fieldName, records[i].fieldValue);
-    }
-    
-    // free up memory
-    delete [] records;
 }
